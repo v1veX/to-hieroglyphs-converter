@@ -8,19 +8,22 @@
 </head>
 <body>
     <div class="wrapper">
-        <h1 class="headline">Converter</h1>
+        <h1 class="headline">Конвертер текста в иероглифы</h1>
         <div class="description">
-            Этот конвертер заменяет буквы на визуально похожие на них иероглифы. Введите текст в поле ниже и нажмите кнопку "Конвертировать".
-            <span class="underlined">Работает только с символами русского алфавита!</span>
+            Этот конвертер заменяет символы <span class="underlined">русского алфавита</span> на визуально похожие иероглифы. Например: Привет → 冂尸仈丑仨丅
         </div>
-        <form class="converter-form">
-            <input type="text" id="input" class="converter-input" name="input" placeholder="Введите текст" />
+        <div class="converter-form">
+            <textarea type="text" id="input" class="converter-input" name="input" placeholder="Введите текст"></textarea>
             <div class="buttons-container">
-                <button type="submit" class="converter-button convert-button">Конвертировать</button>
-                <button type="button" class="converter-button clear-button">Очистить</button>
+                <button type="button" class="convert-button button">Конвертировать</button>
+                <button type="button" class="clear-button button gray">Очистить</button>
             </div>
-        </form>
+        </div>
         <div class="result-field"></div>
+    </div>
+    <button class="copy-button button">Скопировать</button>
+    <div class="copy-notification">
+        <div class="copy-notification-text"></div>
     </div>
 
     <script src="./converter.js"></script>

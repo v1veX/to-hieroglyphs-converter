@@ -124,19 +124,6 @@
  }
  
  /**
-   Приводим к единому цвету svg-элементы
-  */
- svg *[fill] { fill: currentColor }
- svg *[stroke] { stroke: currentColor }
- 
- /**
-   Чиним баг задержки смены цвета при взаимодействии с svg-элементами
-  */
- svg * {
-   transition-property: fill, stroke;
- }
- 
- /**
    Удаляем все анимации и переходы для людей,
    которые предпочитают их не использовать
   */
@@ -150,28 +137,26 @@
 }
 
 body {
-    display: flex;
-    justify-content: center;
+    padding-top: 65px;
+    padding-bottom: 40px;
     font-family: Arial, sans-serif;
 }
 
 .wrapper {
     max-width: 700px;
-    padding-top: 200px;
-    padding-bottom: 40px;
+    margin-inline: auto;
     padding-inline: 20px;
 }
 
-.wrapper > :not(:last-child) {
-    margin-bottom: 20px;
-}
-
 .headline {
-    font-size: 40px;
+    margin-bottom: 25px;
+    font-size: 32px;
     text-align: center;
 }
 
 .description {
+    margin-bottom: 25px;
+    color: #727272;  
     text-align: center;
 }
 
@@ -179,22 +164,87 @@ body {
     text-decoration: underline;
 }
 
+.converter-form {
+    margin-bottom: 50px;
+}
+
 .converter-input {
-    height: 40px;
+    height: 200px;
     width: 100%;
-    margin-bottom: 20px;
-    padding-inline: 10px;
-    font-size: 19px;
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 1px solid #4294FF;
+    border-radius: 15px;
+    font-size: 18px;
+    resize: none;
 }
 
 .buttons-container {
-    display: flex;
-    justify-content: center;
-    column-gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 25px;
+}
+
+.button {
+    display: block;
+    padding-block: 12px;
+    border: none;
+    border-radius: 10px;
+    background-color: #4294FF;
+    color: #FFFFFF;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.button:hover {
+    background-color: #2277e5;
+}
+
+.button.gray {
+    background-color: #F1F1F1;
+    color: #000000;
+}
+
+.button.gray:hover {
+  background-color: #c2c2c2;
 }
 
 .result-field {
-    margin-top: 50px;
+    margin-bottom: 50px;
     text-align: center;
-    font-size: 22px;
+    font-size: 18px;
+}
+
+.copy-button {
+    display: none;
+    position: sticky;
+    bottom: 20px;
+    width: 250px;
+    margin-inline: auto;
+    padding-inline: 75px;
+}
+
+.copy-button.shown {
+    display: block;
+}
+
+.copy-notification {
+    position: fixed;
+    top: -60px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    transition: top 0.3s;
+}
+
+.copy-notification.shown {
+    top: 13px;
+}
+
+.copy-notification-text {
+    padding: 10px 15px;
+    background-color: #343434;
+    border-radius: 10px;
+    color: #FFFFFF;
 }
