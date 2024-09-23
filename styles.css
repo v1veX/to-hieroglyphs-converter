@@ -1,127 +1,119 @@
 /**
-  Нормализация блочной модели
- */
- *,
- *::before,
- *::after {
-   box-sizing: border-box;
- }
- 
- /**
-   Убираем внутренние отступы слева тегам списков,
-   у которых есть атрибут class
+Нормализация блочной модели
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/**
+  Убираем внутренние отступы слева тегам списков,
+  у которых есть атрибут class
+*/
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+/**
+  Убираем внешние отступы body и двум другим тегам,
+  у которых есть атрибут class
+*/
+body,
+:where(blockquote, figure):where([class]) {
+  margin: 0;
+}
+
+/**
+  Убираем внешние отступы вертикали нужным тегам,
+  у которых есть атрибут class
+*/
+:where(
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  ul,
+  ol,
+  dl
+):where([class]) {
+  margin-block: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(fieldset[class]) {
+  margin-left: 0;
+  padding: 0;
+  border: none;
+}
+
+/**
+  Убираем стандартный маркер маркированному списку,
+  у которого есть атрибут class
+*/
+:where(ul[class]) {
+  list-style: none;
+}
+
+/**
+  Обнуляем вертикальные внешние отступы параграфа,
+  объявляем локальную переменную для внешнего отступа вниз,
+  чтобы избежать взаимодействие с более сложным селектором
+*/
+p {
+  --paragraphMarginBottom: 24px;
+
+  margin-block: 0;
+}
+
+/**
+  Внешний отступ вниз для параграфа без атрибута class,
+  который расположен не последним среди своих соседних элементов
+*/
+p:where(:not([class]):not(:last-child)) {
+  margin-bottom: var(--paragraphMarginBottom);
+}
+
+
+/**
+  Наследуем свойства шрифт для полей ввода
+*/
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+html {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
   */
- :where(ul, ol):where([class]) {
-   padding-left: 0;
- }
- 
- /**
-   Убираем внешние отступы body и двум другим тегам,
-   у которых есть атрибут class
+  height: 100%;
+  /**
+    Плавный скролл
   */
- body,
- :where(blockquote, figure):where([class]) {
-   margin: 0;
- }
- 
- /**
-   Убираем внешние отступы вертикали нужным тегам,
-   у которых есть атрибут class
+  scroll-behavior: smooth;
+}
+
+body {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
   */
- :where(
-   h1,
-   h2,
-   h3,
-   h4,
-   h5,
-   h6,
-   p,
-   ul,
-   ol,
-   dl
- ):where([class]) {
-   margin-block: 0;
- }
- 
- :where(dd[class]) {
-   margin-left: 0;
- }
- 
- :where(fieldset[class]) {
-   margin-left: 0;
-   padding: 0;
-   border: none;
- }
- 
- /**
-   Убираем стандартный маркер маркированному списку,
-   у которого есть атрибут class
+  min-height: 100%;
+  /**
+    Унифицированный интерлиньяж
   */
- :where(ul[class]) {
-   list-style: none;
- }
- 
- /**
-   Обнуляем вертикальные внешние отступы параграфа,
-   объявляем локальную переменную для внешнего отступа вниз,
-   чтобы избежать взаимодействие с более сложным селектором
-  */
- p {
-   --paragraphMarginBottom: 24px;
- 
-   margin-block: 0;
- }
- 
- /**
-   Внешний отступ вниз для параграфа без атрибута class,
-   который расположен не последним среди своих соседних элементов
-  */
- p:where(:not([class]):not(:last-child)) {
-   margin-bottom: var(--paragraphMarginBottom);
- }
- 
- 
- /**
-   Упрощаем работу с изображениями
-  */
- img {
-   display: block;
-   max-width: 100%;
- }
- 
- /**
-   Наследуем свойства шрифт для полей ввода
-  */
- input,
- textarea,
- select,
- button {
-   font: inherit;
- }
- 
- html {
-   /**
-     Пригодится в большинстве ситуаций
-     (когда, например, нужно будет "прижать" футер к низу сайта)
-    */
-   height: 100%;
-   /**
-     Плавный скролл
-    */
-   scroll-behavior: smooth;
- }
- 
- body {
-   /**
-     Пригодится в большинстве ситуаций
-     (когда, например, нужно будет "прижать" футер к низу сайта)
-    */
-   min-height: 100%;
-   /**
-     Унифицированный интерлиньяж
-    */
-   line-height: 1.5;
- }
+  line-height: 1.5;
+}
  
  /**
    Удаляем все анимации и переходы для людей,
@@ -136,115 +128,164 @@
    }
 }
 
+:root {
+  --color-blue: #4294FF;
+  --color-blue-hover: #2277e5;
+  --color-gray: #F1F1F1;
+  --color-gray-hover: #c2c2c2;
+  --color-gray-text: #727272;
+  --color-gray-accent: #343434;
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+
+  --textarea-height: 200px;
+
+  --margin: 25px;
+
+  --border-radius: 15px;
+  --border-radius-small: 10px;
+
+  --font-size: 18px;
+  --font-size-headline: 32px;
+}
+
 body {
-    padding-top: 65px;
-    padding-bottom: 40px;
-    font-family: Arial, sans-serif;
+  padding-top: 65px;
+  padding-bottom: 40px;
+  font-family: Arial, sans-serif;
 }
 
 .wrapper {
-    max-width: 700px;
-    margin-inline: auto;
-    padding-inline: 20px;
+  max-width: 700px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+.headline, .description, .converter-input {
+  margin-bottom: var(--margin);
 }
 
 .headline {
-    margin-bottom: 25px;
-    font-size: 32px;
-    text-align: center;
+  font-size: var(--font-size-headline);
+  text-align: center;
 }
 
 .description {
-    margin-bottom: 25px;
-    color: #727272;  
-    text-align: center;
+  color: var(--color-gray-text);  
+  text-align: center;
 }
 
 .underlined {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .converter-form {
-    margin-bottom: 50px;
+  margin-bottom: 50px;
 }
 
 .converter-input {
-    height: 200px;
-    width: 100%;
-    margin-bottom: 25px;
-    padding: 15px;
-    border: 1px solid #4294FF;
-    border-radius: 15px;
-    font-size: 18px;
-    resize: none;
+  height: var(--textarea-height);
+  width: 100%;
+  padding: 15px;
+  border: 1px solid var(--color-blue);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size);
+  resize: none;
 }
 
 .buttons-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 25px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: var(--margin);
 }
 
 .button {
-    display: block;
-    padding-block: 12px;
-    border: none;
-    border-radius: 10px;
-    background-color: #4294FF;
-    color: #FFFFFF;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.button:hover {
-    background-color: #2277e5;
+  display: block;
+  padding-block: 12px;
+  border: none;
+  border-radius: var(--border-radius-small);
+  background-color: var(--color-blue);
+  color: var(--color-white);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
 .button.gray {
-    background-color: #F1F1F1;
-    color: #000000;
-}
-
-.button.gray:hover {
-  background-color: #c2c2c2;
+  background-color: var(--color-gray);
+  color: var(--color-black);
 }
 
 .result-field {
-    margin-bottom: 50px;
-    text-align: center;
-    font-size: 18px;
+  margin-bottom: 50px;
+  text-align: center;
+  font-size: var(--font-size);
 }
 
 .copy-button {
-    display: none;
-    position: sticky;
-    bottom: 20px;
-    width: 250px;
-    margin-inline: auto;
-    padding-inline: 75px;
+  display: none;
+  position: sticky;
+  bottom: 20px;
+  width: 250px;
+  margin-inline: auto;
+  padding-inline: 75px;
 }
 
 .copy-button.shown {
-    display: block;
+  display: block;
 }
 
 .copy-notification {
-    position: fixed;
-    top: -60px;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    transition: top 0.3s;
+  position: fixed;
+  top: -60px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  transition: top 0.3s;
 }
 
 .copy-notification.shown {
-    top: 13px;
+  top: 13px;
 }
 
 .copy-notification-text {
-    padding: 10px 15px;
-    background-color: #343434;
-    border-radius: 10px;
-    color: #FFFFFF;
+  padding: 10px 15px;
+  background-color: var(--color-gray-accent);
+  border-radius: var(--border-radius-small);
+  color: var(--color-white);
+}
+
+@media (max-width: 767px) {
+  :root {
+    --textarea-height: 150px;
+
+    --margin: 20px;
+
+    --font-size: 16px;
+    --font-size-headline: 28px;
+  }
+
+  body {
+    padding-top: 40px;
+  }
+}
+
+@media (hover: hover) {
+  .button:hover {
+    background-color: var(--color-blue-hover);
+  }
+
+  .button.gray:hover {
+    background-color: var(--color-gray-hover);
+  }
+}
+
+@media (hover: none) {
+  .button:active {
+    background-color: var(--color-blue-hover);
+  }
+
+  .button.gray:active {
+    background-color: var(--color-gray-hover);
+  }
 }
