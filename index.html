@@ -7,23 +7,53 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    <div class="wrapper">
-        <h1 class="headline">Конвертер текста в иероглифы</h1>
-        <div class="description">
-            Этот конвертер заменяет символы <span class="underlined">русского алфавита</span> на визуально похожие иероглифы. Например: Привет → 冂尸仈丑仨丅
-        </div>
-        <div class="converter-form">
-            <textarea type="text" id="input" class="converter-input" name="input" placeholder="Введите текст"></textarea>
-            <div class="buttons-container">
-                <button type="button" class="convert-button button">Конвертировать</button>
-                <button type="button" class="clear-button button gray">Очистить</button>
+    <div class="main">
+        <div class="main-inner">
+            <h1 class="headline">Конвертер текста в иероглифы</h1>
+            <div class="description">
+                Этот конвертер заменяет символы <span class="underlined">русского алфавита</span> на визуально похожие иероглифы. Например: Привет → 冂尸仈丑仨丅
             </div>
+            <div class="converter-form">
+                <textarea type="text" id="input" class="converter-input" name="input" placeholder="Введите текст"></textarea>
+                <div class="symbols-amount">1</div>
+                <div class="buttons-container">
+                    <button type="button" class="convert-button button">Конвертировать</button>
+                    <button type="button" class="clear-button button gray">Очистить</button>
+                    <button type="button" class="history-button button gray">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_19_18)">
+                                <path d="M12 6V12L16 14M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="#1E1E1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_19_18">
+                                    <rect width="24" height="24" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="result-field"></div>
+            <button class="copy-button button">Скопировать</button>
         </div>
-        <div class="result-field"></div>
-        <button class="copy-button button">Скопировать</button>
     </div>
-    <div class="copy-notification">
-        <div class="copy-notification-text"></div>
+    <div class="history">
+        <div class="history-header">
+            <div class="history-headline">История</div>
+            <button class="close-history-button">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24 8L8 24M8 8L24 24" stroke="#1E1E1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+        <div class="history-body">
+            <ul class="history-list">
+                <li class="history-item"></li>
+            </ul>
+        </div>
+    </div>
+    <div class="notification">
+        <div class="notification-text"></div>
     </div>
 
     <script src="./converter.js"></script>

@@ -114,7 +114,20 @@ body {
   */
   line-height: 1.5;
 }
- 
+
+/**
+Приводим к единому цвету svg-элементы
+*/
+svg *[fill] { fill: currentColor }
+svg *[stroke] { stroke: currentColor }
+
+/**
+Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+*/
+svg * {
+  transition-property: fill, stroke;
+}
+
  /**
    Удаляем все анимации и переходы для людей,
    которые предпочитают их не использовать
@@ -139,6 +152,7 @@ body {
   --color-black: #000000;
 
   --textarea-height: 200px;
+  --history-panel-width: 350px;
 
   --margin: 25px;
 
@@ -150,18 +164,27 @@ body {
 }
 
 body {
-  padding-top: 65px;
-  padding-bottom: 40px;
   font-family: Arial, sans-serif;
 }
 
-.wrapper {
+.main {
+  width: 100%;
+  padding-top: 65px;
+  padding-bottom: 40px;
+  transition: width 0.3s;
+}
+
+.main.shifted {
+  width: calc(100% - var(--history-panel-width));
+}
+
+.main-inner {
   max-width: 700px;
   margin-inline: auto;
   padding-inline: 20px;
 }
 
-.headline, .description, .converter-input {
+.headline, .description {
   margin-bottom: var(--margin);
 }
 
@@ -193,10 +216,17 @@ body {
   resize: none;
 }
 
+.symbols-amount {
+  margin-bottom: 20px;
+  color: var(--color-gray-accent);
+  text-align: right;
+  font-size: 13px;
+}
+
 .buttons-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: var(--margin);
+  grid-template-columns: repeat(2, 1fr) 50px;
+  column-gap: 15px;
 }
 
 .button {
@@ -214,6 +244,12 @@ body {
 .button.gray {
   background-color: var(--color-gray);
   color: var(--color-black);
+}
+
+.history-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .result-field {
@@ -235,24 +271,73 @@ body {
   display: block;
 }
 
-.copy-notification {
+.notification {
   position: fixed;
-  top: -60px;
+  top: -70px;
   display: flex;
   justify-content: center;
   width: 100%;
   transition: top 0.3s;
 }
 
-.copy-notification.shown {
+.notification.shown {
   top: 13px;
 }
 
-.copy-notification-text {
+.notification-text {
   padding: 10px 15px;
   background-color: var(--color-gray-accent);
   border-radius: var(--border-radius-small);
   color: var(--color-white);
+}
+
+.history {
+  position: fixed;
+  top: 0;
+  left: 100%;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: var(--history-panel-width);
+  background-color: var(--color-white);
+  border-left: 1px solid var(--color-gray);
+  transition: left 0.3s;
+}
+
+.history.shown {
+  left: calc(100% - var(--history-panel-width));
+}
+
+.history-header {
+  padding: 30px 30px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.history-headline {
+  font-size: var(--font-size-headline);
+}
+
+.close-history-button {
+  display: flex;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  color: var(--color-black);
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.history-body {
+  overflow-y: auto;
+  overscroll-behavior: none;
+}
+
+.history-item {
+  padding: 20px 30px;
+  transition: all 0.3s;
+  cursor: pointer;
 }
 
 @media (max-width: 767px) {
@@ -264,9 +349,18 @@ body {
     --font-size: 16px;
     --font-size-headline: 28px;
   }
+  
+  .main.shifted {
+    width: 100%;
+  }
 
-  body {
-    padding-top: 40px;
+  .history {
+    width: 100%;
+    border: none;
+  }
+  
+  .history.shown {
+    left: 0;
   }
 }
 
@@ -277,6 +371,14 @@ body {
 
   .button.gray:hover {
     background-color: var(--color-gray-hover);
+  }
+
+  .close-history-button:hover {
+    color: var(--color-gray-hover);
+  }
+
+  .history-item:hover {
+    background-color: var(--color-gray);
   }
 }
 

@@ -1,4 +1,5 @@
-init();
+const MAX_INPUT_LENGTH = 2000;
+const MAX_HISTORY_LENGTH = 5;
 
 function convert() {
     const dictionary = new Map([
@@ -38,13 +39,18 @@ function convert() {
         ['.', '。'],
     ]);
 
-    const inputField = document.querySelector('.converter-input');
-    const inputValue = inputField.value.toUpperCase().trim();
+    const inputValue = document.querySelector('.converter-input').value;
+    const clearValue = inputValue.trim().toUpperCase();
 
-    if (inputValue === '') return;
+    if (clearValue === '') return;
+
+    if (inputValue.length > MAX_INPUT_LENGTH) {
+        showNotification('Текст должен содержать не более 1000 символов!');
+        return;
+    }
 
     let resultValue = '';
-    for (const letter of inputValue) {
+    for (const letter of clearValue) {
         if (dictionary.has(letter)) {
             resultValue += dictionary.get(letter);
         }
@@ -56,6 +62,7 @@ function convert() {
     const resultField = document.querySelector('.result-field');
     resultField.textContent = resultValue;
     
+    addToHistory(inputValue);
     showCopyButton();
 }
 
@@ -66,6 +73,21 @@ function clear() {
     resultField.textContent = '';
 
     hideCopyButton();
+    showSymbolsAmount();
+}
+
+function copy() {
+    const resultField = document.querySelector('.result-field');
+    const valueToCopy = resultField.textContent;
+
+    navigator.clipboard.writeText(valueToCopy)
+    .then(function() {
+        showNotification('Успешно скопировано');
+    })
+    .catch(function(err) {
+        showNotification('Ошибка копирования');
+        console.error(err);
+    });
 }
 
 function showCopyButton() {
@@ -78,19 +100,76 @@ function hideCopyButton() {
     copyButton.classList.remove('shown');
 }
 
-function showCopyNotification(message) {
-    const notification = document.querySelector('.copy-notification');
-    const notificationText = document.querySelector('.copy-notification-text');
+function showNotification(message) {
+    const notification = document.querySelector('.notification');
+    const notificationText = document.querySelector('.notification-text');
     notificationText.textContent = message;
     notification.classList.add('shown');
 
     setTimeout(() => notification.classList.remove('shown'), 2000);
 }
 
+function addToHistory(data) {
+    let history = JSON.parse(localStorage.getItem('history'));
+
+    if (history.includes(data)) return;
+
+    if (history.length === MAX_HISTORY_LENGTH) history.shift();
+
+    history.push(data);
+    localStorage.setItem('history', JSON.stringify(history));
+}
+
+function loadHistory() {
+    const history = JSON.parse(localStorage.getItem('history'));
+    const historyList = document.querySelector('.history-list');
+    historyList.innerHTML = '';
+
+    for (const item of history.reverse()) {
+        let historyItem = document.createElement('div');
+        historyItem.classList.add('history-item');
+        historyItem.textContent = item;
+        historyItem.onclick = () => insertFromHistory(item);
+        historyList.append(historyItem);
+    }
+}
+
+function switchHistoryPanel() {
+    const mainPanel = document.querySelector('.main');
+    const historyPanel = document.querySelector('.history');
+
+    if (historyPanel.classList.contains('shown')) {
+        mainPanel.classList.remove('shifted');
+        historyPanel.classList.remove('shown');
+    }
+    else {
+        loadHistory();
+        mainPanel.classList.add('shifted');
+        historyPanel.classList.add('shown');
+    }
+}
+
+function insertFromHistory(data) {
+    const inputField = document.querySelector('.converter-input');
+    inputField.value = data;
+
+    showSymbolsAmount();
+    convert();
+}
+
+function showSymbolsAmount() {
+    const amountField = document.querySelector('.symbols-amount');
+    const inputValueLength = document.querySelector('.converter-input').value.length;
+
+    amountField.textContent = `${inputValueLength} / ${MAX_INPUT_LENGTH}`
+}
+
 function init() {
     const inputField = document.querySelector('.converter-input');
     inputField.oninput = () => {
-        if (inputField.value === '') clear(); 
+        if (inputField.value === '') clear();
+
+        showSymbolsAmount();
     };
 
     const convertButton = document.querySelector('.convert-button');
@@ -100,17 +179,17 @@ function init() {
     clearButton.onclick = clear;
 
     const copyButton = document.querySelector('.copy-button');
-    copyButton.onclick = () => {
-        const resultField = document.querySelector('.result-field');
-        const valueToCopy = resultField.textContent;
+    copyButton.onclick = copy;
 
-        navigator.clipboard.writeText(valueToCopy)
-        .then(function() {
-            showCopyNotification('Успешно скопировано');
-        })
-        .catch(function(err) {
-            showCopyNotification('Ошибка копирования');
-            console.error(err);
-        });
-    };
+    const historyButton = document.querySelector('.history-button');
+    const closeHistoryButton = document.querySelector('.close-history-button');
+    historyButton.onclick = closeHistoryButton.onclick = switchHistoryPanel;
+
+    if (!localStorage.getItem('history')) {
+        localStorage.setItem('history', JSON.stringify([]));
+    }
+
+    showSymbolsAmount();
 }
+
+init();
