@@ -45,7 +45,7 @@ function convert() {
     if (clearValue === '') return;
 
     if (inputValue.length > MAX_INPUT_LENGTH) {
-        showNotification('Текст должен содержать не более 1000 символов!');
+        showNotification(`Текст должен содержать не более ${MAX_INPUT_LENGTH} символов!`);
         return;
     }
 
