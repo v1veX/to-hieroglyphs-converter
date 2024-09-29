@@ -149,10 +149,16 @@ function switchHistoryPanel() {
     }
 }
 
+function closeHistoryMobile() {
+    if (document.documentElement.offsetWidth <= 767)
+        switchHistoryPanel();
+}
+
 function insertFromHistory(data) {
     const inputField = document.querySelector('.converter-input');
     inputField.value = data;
 
+    closeHistoryMobile();
     showSymbolsAmount();
     convert();
 }
