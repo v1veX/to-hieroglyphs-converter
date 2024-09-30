@@ -118,6 +118,8 @@ function addToHistory(data) {
 
     history.push(data);
     localStorage.setItem('history', JSON.stringify(history));
+
+    updateHistory();
 }
 
 function loadHistory() {
@@ -132,6 +134,14 @@ function loadHistory() {
         historyItem.onclick = () => insertFromHistory(item);
         historyList.append(historyItem);
     }
+}
+
+function updateHistory() {
+    const historyPanel = document.querySelector('.history');
+
+    if (!historyPanel.classList.contains('shown')) return;
+
+    loadHistory();
 }
 
 function switchHistoryPanel() {
