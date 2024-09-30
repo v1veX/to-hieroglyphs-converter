@@ -151,7 +151,7 @@ svg * {
   --color-white: #FFFFFF;
   --color-black: #000000;
 
-  --textarea-height: 200px;
+  --textarea-height: 150px;
   --history-panel-width: 350px;
 
   --margin: 25px;
@@ -161,6 +161,10 @@ svg * {
 
   --font-size: 18px;
   --font-size-headline: 32px;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -206,18 +210,27 @@ body {
   margin-bottom: 50px;
 }
 
+.converter-input-wrapper {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid var(--color-blue);
+  border-radius: var(--border-radius);
+}
+
 .converter-input {
   height: var(--textarea-height);
   width: 100%;
-  padding: 15px;
-  border: 1px solid var(--color-blue);
-  border-radius: var(--border-radius);
+  border: none;
   font-size: var(--font-size);
   resize: none;
+  overscroll-behavior: none;
+}
+
+.converter-input:focus-visible {
+  outline: 0;
 }
 
 .symbols-amount {
-  margin-bottom: 20px;
   color: var(--color-gray-accent);
   text-align: right;
   font-size: 13px;
@@ -309,10 +322,11 @@ body {
 }
 
 .history-header {
-  padding: 30px 30px 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 30px;
+  border-bottom: 1px solid var(--color-gray);
 }
 
 .history-headline {
@@ -336,14 +350,14 @@ body {
 
 .history-item {
   padding: 20px 30px;
+  border-bottom: 1px solid var(--color-gray);
   transition: all 0.3s;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 @media (max-width: 767px) {
   :root {
-    --textarea-height: 150px;
-
     --margin: 20px;
 
     --font-size: 16px;
@@ -389,5 +403,13 @@ body {
 
   .button.gray:active {
     background-color: var(--color-gray-hover);
+  }
+
+  .close-history-button:active {
+    color: var(--color-gray-hover);
+  }
+
+  .history-item:active {
+    background-color: var(--color-gray);
   }
 }
