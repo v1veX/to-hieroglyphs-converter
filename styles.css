@@ -142,14 +142,15 @@ svg * {
 }
 
 :root {
-  --color-blue: #4294FF;
-  --color-blue-hover: #2277e5;
-  --color-gray: #F1F1F1;
-  --color-gray-hover: #c2c2c2;
-  --color-gray-text: #727272;
-  --color-gray-accent: #343434;
-  --color-white: #FFFFFF;
-  --color-black: #000000;
+  --color-background: #FFFFFF;
+  --color-background-accent: #343434;
+  --color-main: #4294FF;
+  --color-main-hover: #2277e5;
+  --color-accent: #F1F1F1;
+  --color-accent-hover: #c2c2c2;
+  --color-text-main: #000000;
+  --color-text-accent: #727272;
+  --color-text-light: #FFFFFF;
 
   --textarea-height: 150px;
   --history-panel-width: 350px;
@@ -163,12 +164,22 @@ svg * {
   --font-size-headline: 32px;
 }
 
+:root.dark {
+  --color-background: #001219;
+  --color-main-hover: transparent;
+  --color-accent: #1F3138;
+  --color-accent-hover: #47616C;
+  --color-text-main: #FFFFFF;
+}
+
 button {
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
+  background-color: var(--color-background);
   font-family: Arial, sans-serif;
+  color: var(--color-text-main);
 }
 
 .main {
@@ -198,7 +209,7 @@ body {
 }
 
 .description {
-  color: var(--color-gray-text);  
+  color: var(--color-text-accent);  
   text-align: center;
 }
 
@@ -213,15 +224,17 @@ body {
 .converter-input-wrapper {
   padding: 15px;
   margin-bottom: 20px;
-  border: 1px solid var(--color-blue);
+  border: 1px solid var(--color-main);
   border-radius: var(--border-radius);
 }
 
 .converter-input {
   height: var(--textarea-height);
   width: 100%;
+  background-color: transparent;
   border: none;
   font-size: var(--font-size);
+  color: var(--color-text-main);
   resize: none;
   overscroll-behavior: none;
 }
@@ -231,7 +244,7 @@ body {
 }
 
 .symbols-amount {
-  color: var(--color-gray-accent);
+  color: var(--color-background-accent);
   text-align: right;
   font-size: 13px;
 }
@@ -245,18 +258,19 @@ body {
 .button {
   display: block;
   padding-block: 12px;
-  border: none;
+  border: 1px solid var(--color-main);
   border-radius: var(--border-radius-small);
-  background-color: var(--color-blue);
-  color: var(--color-white);
+  background-color: var(--color-main);
+  color: var(--color-text-light);
   text-align: center;
   cursor: pointer;
   transition: all 0.3s;
 }
 
 .button.gray {
-  background-color: var(--color-gray);
-  color: var(--color-black);
+  background-color: var(--color-accent);
+  border: none;
+  color: var(--color-text-main);
 }
 
 .history-button {
@@ -299,9 +313,9 @@ body {
 
 .notification-text {
   padding: 10px 15px;
-  background-color: var(--color-gray-accent);
+  background-color: var(--color-background-accent);
   border-radius: var(--border-radius-small);
-  color: var(--color-white);
+  color: var(--color-background);
 }
 
 .history {
@@ -312,8 +326,8 @@ body {
   display: flex;
   flex-direction: column;
   width: var(--history-panel-width);
-  background-color: var(--color-white);
-  border-left: 1px solid var(--color-gray);
+  background-color: var(--color-background);
+  border-left: 1px solid var(--color-accent);
   transition: left 0.3s;
 }
 
@@ -326,7 +340,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 30px;
-  border-bottom: 1px solid var(--color-gray);
+  border-bottom: 1px solid var(--color-accent);
 }
 
 .history-headline {
@@ -338,7 +352,7 @@ body {
   padding: 0;
   background-color: transparent;
   border: none;
-  color: var(--color-black);
+  color: var(--color-text-main);
   cursor: pointer;
   transition: color 0.3s;
 }
@@ -350,7 +364,7 @@ body {
 
 .history-item {
   padding: 20px 30px;
-  border-bottom: 1px solid var(--color-gray);
+  border-bottom: 1px solid var(--color-accent);
   transition: all 0.3s;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -380,36 +394,36 @@ body {
 
 @media (hover: hover) {
   .button:hover {
-    background-color: var(--color-blue-hover);
+    background-color: var(--color-main-hover);
   }
 
   .button.gray:hover {
-    background-color: var(--color-gray-hover);
+    background-color: var(--color-accent-hover);
   }
 
   .close-history-button:hover {
-    color: var(--color-gray-hover);
+    color: var(--color-accent-hover);
   }
 
   .history-item:hover {
-    background-color: var(--color-gray);
+    background-color: var(--color-accent);
   }
 }
 
 @media (hover: none) {
   .button:active {
-    background-color: var(--color-blue-hover);
+    background-color: var(--color-main-hover);
   }
 
   .button.gray:active {
-    background-color: var(--color-gray-hover);
+    background-color: var(--color-accent-hover);
   }
 
   .close-history-button:active {
-    color: var(--color-gray-hover);
+    color: var(--color-accent-hover);
   }
 
   .history-item:active {
-    background-color: var(--color-gray);
+    background-color: var(--color-accent);
   }
 }
