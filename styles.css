@@ -180,6 +180,7 @@ body {
   background-color: var(--color-background);
   font-family: Arial, sans-serif;
   color: var(--color-text-main);
+  transition: all 0.3s;
 }
 
 .main {
@@ -328,7 +329,8 @@ body {
   width: var(--history-panel-width);
   background-color: var(--color-background);
   border-left: 1px solid var(--color-accent);
-  transition: left 0.3s;
+  color: var(--color-text-main);
+  transition: all 0.3s;
 }
 
 .history.shown {
@@ -341,6 +343,7 @@ body {
   justify-content: space-between;
   padding: 30px;
   border-bottom: 1px solid var(--color-accent);
+  transition: border-color 0.3s;
 }
 
 .history-headline {
@@ -365,7 +368,8 @@ body {
 .history-item {
   padding: 20px 30px;
   border-bottom: 1px solid var(--color-accent);
-  transition: all 0.3s;
+  transition-property: background-color, border-color;
+  transition-duration: 0.3s;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
