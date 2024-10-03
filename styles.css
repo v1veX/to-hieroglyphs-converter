@@ -162,6 +162,8 @@ svg * {
 
   --font-size: 18px;
   --font-size-headline: 32px;
+
+  --transition-duration: 0.3s;
 }
 
 :root.dark {
@@ -172,6 +174,10 @@ svg * {
   --color-text-main: #FFFFFF;
 }
 
+:root.no-transition {
+  --transition-duration: 0s;
+}
+
 button {
   -webkit-tap-highlight-color: transparent;
 }
@@ -180,14 +186,15 @@ body {
   background-color: var(--color-background);
   font-family: Arial, sans-serif;
   color: var(--color-text-main);
-  transition: all 0.3s;
+  transition: all var(--transition-duration);
 }
 
 .main {
+  position: relative;
   width: 100%;
   padding-top: 65px;
   padding-bottom: 40px;
-  transition: width 0.3s;
+  transition: width var(--transition-duration);
 }
 
 .main.shifted {
@@ -245,7 +252,7 @@ body {
 }
 
 .symbols-amount {
-  color: var(--color-background-accent);
+  color: var(--color-text-accent);
   text-align: right;
   font-size: 13px;
 }
@@ -265,7 +272,7 @@ body {
   color: var(--color-text-light);
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all var(--transition-duration);
 }
 
 .button.gray {
@@ -305,7 +312,7 @@ body {
   display: flex;
   justify-content: center;
   width: 100%;
-  transition: top 0.3s;
+  transition: top var(--transition-duration);
 }
 
 .notification.shown {
@@ -319,6 +326,49 @@ body {
   color: var(--color-background);
 }
 
+.theme-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 76px;
+  height: 40px;
+  padding: 0;
+  background-color: transparent;
+  border: 1px solid var(--color-accent);
+  border-radius: 30px;
+  color: var(--color-text-main);
+  cursor: pointer;
+  transition-property: background-color, color, border-color;
+  transition-duration: var(--transition-duration);
+}
+
+.theme-button-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 4px 10px;
+}
+
+.theme-button-thumb {
+  --thumbSize: 32px;
+
+  position: absolute;
+  left: 4px;
+  width: var(--thumbSize);
+  height: var(--thumbSize);
+  background-color: var(--color-accent);
+  border-radius: 50%;
+  transition-property: left, background-color;
+  transition-duration: var(--transition-duration);
+}
+
+.theme-button.dark-enabled .theme-button-thumb {
+  left: calc(100% - 4px - var(--thumbSize));
+}
+
 .history {
   position: fixed;
   top: 0;
@@ -330,7 +380,7 @@ body {
   background-color: var(--color-background);
   border-left: 1px solid var(--color-accent);
   color: var(--color-text-main);
-  transition: all 0.3s;
+  transition: all var(--transition-duration);
 }
 
 .history.shown {
@@ -343,7 +393,7 @@ body {
   justify-content: space-between;
   padding: 30px;
   border-bottom: 1px solid var(--color-accent);
-  transition: border-color 0.3s;
+  transition: border-color var(--transition-duration);
 }
 
 .history-headline {
@@ -357,7 +407,7 @@ body {
   border: none;
   color: var(--color-text-main);
   cursor: pointer;
-  transition: color 0.3s;
+  transition: color var(--transition-duration);
 }
 
 .history-body {
@@ -369,7 +419,7 @@ body {
   padding: 20px 30px;
   border-bottom: 1px solid var(--color-accent);
   transition-property: background-color, border-color;
-  transition-duration: 0.3s;
+  transition-duration: var(--transition-duration);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
@@ -405,6 +455,10 @@ body {
     background-color: var(--color-accent-hover);
   }
 
+  .theme-button:hover {
+    background-color: var(--color-accent-hover);
+  }
+
   .close-history-button:hover {
     color: var(--color-accent-hover);
   }
@@ -420,6 +474,10 @@ body {
   }
 
   .button.gray:active {
+    background-color: var(--color-accent-hover);
+  }
+
+  .theme-button:active {
     background-color: var(--color-accent-hover);
   }
 

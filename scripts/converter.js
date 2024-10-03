@@ -180,7 +180,7 @@ function showSymbolsAmount() {
     symbolsAmountElement.textContent = `${inputValueLength} / ${MAX_INPUT_LENGTH}`
 }
 
-function init() {
+export function init() {
     const inputFieldElement = document.querySelector('.converter-input');
     inputFieldElement.oninput = () => {
         if (inputFieldElement.value === '') clear();
@@ -207,5 +207,3 @@ function init() {
 
     showSymbolsAmount();
 }
-
-init();
