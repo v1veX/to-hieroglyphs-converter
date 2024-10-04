@@ -365,7 +365,7 @@ body {
   transition-duration: var(--transition-duration);
 }
 
-.theme-button.dark-enabled .theme-button-thumb {
+:root.dark .theme-button-thumb {
   left: calc(100% - 4px - var(--thumbSize));
 }
 
