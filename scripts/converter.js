@@ -102,8 +102,7 @@ function hideCopyButton() {
 
 function showNotification(message) {
     const notificationElement = document.querySelector('.notification');
-    const notificationTextElement = document.querySelector('.notification-text');
-    notificationTextElement.textContent = message;
+    notificationElement.textContent = message;
     notificationElement.classList.add('shown');
 
     setTimeout(() => notificationElement.classList.remove('shown'), 2000);

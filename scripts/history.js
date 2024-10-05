@@ -1,4 +1,5 @@
 const MAX_HISTORY_LENGTH = 5;
+const MOBILE_SCREEN_WIDTH = 767;
 
 function addToHistory(data) {
     let history = JSON.parse(localStorage.getItem('history'));
@@ -35,31 +36,35 @@ function updateHistory() {
     loadHistory();
 }
 
-function switchHistoryPanel() {
+function doOnMobile(callback) {
+    if (document.documentElement.offsetWidth <= MOBILE_SCREEN_WIDTH)
+        callback();
+}
+
+function toggleBodyScroll() {
+    document.body.classList.toggle('scroll-blocked');
+}
+
+function toggleHistoryPanel() {
     const mainElement = document.querySelector('.main');
     const historyElement = document.querySelector('.history');
 
-    if (historyElement.classList.contains('shown')) {
-        mainElement.classList.remove('shifted');
-        historyElement.classList.remove('shown');
-    }
-    else {
-        loadHistory();
-        mainElement.classList.add('shifted');
-        historyElement.classList.add('shown');
-    }
-}
+    mainElement.classList.toggle('shifted');
+    historyElement.classList.toggle('shown');
 
-function closeHistoryMobile() {
-    if (document.documentElement.offsetWidth <= 767)
-        switchHistoryPanel();
+    if (historyElement.classList.contains('shown')) {
+        loadHistory();
+    }
+
+    doOnMobile(toggleBodyScroll);
 }
 
 function insertFromHistory(data) {
     const inputFieldElement = document.querySelector('.converter-input');
     inputFieldElement.value = data;
 
-    closeHistoryMobile();
+    doOnMobile(toggleHistoryPanel);
+
     const insertEvent = new CustomEvent('insert');
     document.dispatchEvent(insertEvent);
 }
@@ -67,7 +72,7 @@ function insertFromHistory(data) {
 export function init() {
     const historyButtonElement = document.querySelector('.history-button');
     const closeHistoryButtonElement = document.querySelector('.close-history-button');
-    historyButtonElement.onclick = closeHistoryButtonElement.onclick = switchHistoryPanel;
+    historyButtonElement.onclick = closeHistoryButtonElement.onclick = toggleHistoryPanel;
 
     document.addEventListener('convert', event => {
         addToHistory(event.detail.textToHistory);
