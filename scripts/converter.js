@@ -1,5 +1,4 @@
 const MAX_INPUT_LENGTH = 2000;
-const MAX_HISTORY_LENGTH = 5;
 
 function convert() {
     const dictionary = new Map([
@@ -62,7 +61,8 @@ function convert() {
     const resultFieldElement = document.querySelector('.result-field');
     resultFieldElement.textContent = resultValue;
     
-    addToHistory(inputValue);
+    const convertEvent = new CustomEvent('convert', {detail: {textToHistory: inputValue}});
+    document.dispatchEvent(convertEvent);
     showCopyButton();
 }
 
@@ -109,70 +109,6 @@ function showNotification(message) {
     setTimeout(() => notificationElement.classList.remove('shown'), 2000);
 }
 
-function addToHistory(data) {
-    let history = JSON.parse(localStorage.getItem('history'));
-
-    if (history.includes(data)) return;
-
-    if (history.length === MAX_HISTORY_LENGTH) history.shift();
-
-    history.push(data);
-    localStorage.setItem('history', JSON.stringify(history));
-
-    updateHistory();
-}
-
-function loadHistory() {
-    const history = JSON.parse(localStorage.getItem('history'));
-    const historyListElement = document.querySelector('.history-list');
-    historyListElement.innerHTML = '';
-
-    for (const item of history.reverse()) {
-        let historyItemElement = document.createElement('div');
-        historyItemElement.classList.add('history-item');
-        historyItemElement.textContent = item;
-        historyItemElement.onclick = () => insertFromHistory(item);
-        historyListElement.append(historyItemElement);
-    }
-}
-
-function updateHistory() {
-    const historyElement = document.querySelector('.history');
-
-    if (!historyElement.classList.contains('shown')) return;
-
-    loadHistory();
-}
-
-function switchHistoryPanel() {
-    const mainElement = document.querySelector('.main');
-    const historyElement = document.querySelector('.history');
-
-    if (historyElement.classList.contains('shown')) {
-        mainElement.classList.remove('shifted');
-        historyElement.classList.remove('shown');
-    }
-    else {
-        loadHistory();
-        mainElement.classList.add('shifted');
-        historyElement.classList.add('shown');
-    }
-}
-
-function closeHistoryMobile() {
-    if (document.documentElement.offsetWidth <= 767)
-        switchHistoryPanel();
-}
-
-function insertFromHistory(data) {
-    const inputFieldElement = document.querySelector('.converter-input');
-    inputFieldElement.value = data;
-
-    closeHistoryMobile();
-    showSymbolsAmount();
-    convert();
-}
-
 function showSymbolsAmount() {
     const symbolsAmountElement = document.querySelector('.symbols-amount');
     const inputValueLength = document.querySelector('.converter-input').value.length;
@@ -197,13 +133,10 @@ export function init() {
     const copyButtonElement = document.querySelector('.copy-button');
     copyButtonElement.onclick = copy;
 
-    const historyButtonElement = document.querySelector('.history-button');
-    const closeHistoryButtonElement = document.querySelector('.close-history-button');
-    historyButtonElement.onclick = closeHistoryButtonElement.onclick = switchHistoryPanel;
-    
-    if (!localStorage.getItem('history')) {
-        localStorage.setItem('history', JSON.stringify([]));
-    }
+    document.addEventListener('insert', () => {
+        showSymbolsAmount();
+        convert();
+    });
 
     showSymbolsAmount();
 }
