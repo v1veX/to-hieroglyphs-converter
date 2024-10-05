@@ -168,7 +168,7 @@ svg * {
 
 :root.dark {
   --color-background: #001219;
-  --color-main-hover: transparent;
+  --color-main-hover: #001219;
   --color-accent: #1F3138;
   --color-accent-hover: #47616C;
   --color-text-main: #FFFFFF;
@@ -187,6 +187,11 @@ body {
   font-family: Arial, sans-serif;
   color: var(--color-text-main);
   transition: all var(--transition-duration);
+  overflow-y: auto;
+}
+
+body.scroll-blocked {
+  overflow-y: hidden;
 }
 
 .main {
@@ -306,24 +311,25 @@ body {
   display: block;
 }
 
-.notification {
+.notification-wrapper {
   position: fixed;
-  top: -70px;
+  bottom: 100%;
   display: flex;
   justify-content: center;
   width: 100%;
-  transition: top var(--transition-duration);
+  padding-inline: 20px;
 }
 
-.notification.shown {
-  top: 13px;
-}
-
-.notification-text {
+.notification {
   padding: 10px 15px;
   background-color: var(--color-background-accent);
   border-radius: var(--border-radius-small);
-  color: var(--color-background);
+  color: var(--color-text-light);
+  transition: transform var(--transition-duration);
+}
+
+.notification.shown {
+  transform: translateY(calc(100% + 13px));
 }
 
 .theme-button {
@@ -474,10 +480,6 @@ body {
   }
 
   .button.gray:active {
-    background-color: var(--color-accent-hover);
-  }
-
-  .theme-button:active {
     background-color: var(--color-accent-hover);
   }
 
