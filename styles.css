@@ -318,6 +318,11 @@ body.scroll-blocked {
   justify-content: center;
   width: 100%;
   padding-inline: 20px;
+  transition: width var(--transition-duration);
+}
+
+.main.shifted ~ .notification-wrapper {
+  width: calc(100% - var(--history-panel-width));
 }
 
 .notification {
