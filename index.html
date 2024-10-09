@@ -8,7 +8,7 @@
     <script src="./scripts/initialTheme.js"></script>
 </head>
 <body>
-    <div class="main">
+    <div class="main" data-js-main>
         <div class="main-inner">
             <h1 class="headline">Конвертер текста в иероглифы</h1>
             <p class="description">
@@ -16,13 +16,20 @@
             </p>
             <div class="converter-form">
                 <div class="converter-input-wrapper">
-                    <textarea type="text" id="input" class="converter-input" name="input" placeholder="Введите текст"></textarea>
-                    <div class="symbols-amount">&nbsp;</div>
+                    <textarea
+                        type="text"
+                        id="input"
+                        class="converter-input"
+                        name="input"
+                        placeholder="Введите текст"
+                        data-js-converter-input
+                    ></textarea>
+                    <div class="symbols-amount" data-js-symbols-amount>&nbsp;</div>
                 </div>
                 <div class="buttons-container">
-                    <button type="button" class="convert-button button">Конвертировать</button>
-                    <button type="button" class="clear-button button gray">Очистить</button>
-                    <button type="button" class="history-button button gray">
+                    <button type="button" class="convert-button button" data-js-convert-button>Конвертировать</button>
+                    <button type="button" class="clear-button button gray" data-js-clear-button>Очистить</button>
+                    <button type="button" class="history-button button gray" data-js-history-button>
                         <span class="visually-hidden">Открыть историю</span>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_19_18)">
@@ -37,10 +44,10 @@
                     </button>
                 </div>
             </div>
-            <p class="result-output"></p>
-            <button class="copy-button button">Скопировать</button>
+            <p class="result-output" data-js-result-output></p>
+            <button class="copy-button button" data-js-copy-button>Скопировать</button>
         </div>
-        <button class="theme-button" type="button">
+        <button class="theme-button" type="button" data-js-theme-button>
             <span class="visually-hidden">Сменить тему</span>
             <span class="theme-button-inner">
                 <span class="theme-button-thumb"></span>
@@ -60,10 +67,10 @@
             </span>
         </button>
     </div>
-    <div class="history">
+    <div class="history" data-js-history>
         <div class="history-header">
             <div class="history-headline">История</div>
-            <button class="close-history-button">
+            <button class="close-history-button" data-js-close-history-button>
                 <span class="visually-hidden">Закрыть историю</span>
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M24 8L8 24M8 8L24 24" stroke="#1E1E1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -71,11 +78,11 @@
             </button>
         </div>
         <div class="history-body">
-            <ul class="history-list"></ul>
+            <ul class="history-list" data-js-history-list></ul>
         </div>
     </div>
     <div class="notification-wrapper">
-        <div class="notification"></div>
+        <div class="notification" data-js-notification></div>
     </div>
 
     <script src="./scripts/script.js" type="module"></script>

@@ -16,13 +16,14 @@ function addToHistory(data) {
 
 function loadHistory() {
     const history = JSON.parse(localStorage.getItem('history'));
-    const historyListElement = document.querySelector('.history-list');
+    const historyListElement = document.querySelector('[data-js-history-list]');
     historyListElement.innerHTML = '';
 
     for (let i = 0; i < history.length; i++) {
         let historyItemElement = document.createElement('div');
         historyItemElement.classList.add('history-item');
         historyItemElement.setAttribute('data-history-index', i);
+        historyItemElement.setAttribute('data-js-history-item', '');
 
         let historyItemTextElement = document.createElement('p');
         historyItemTextElement.textContent = history[i];
@@ -34,7 +35,7 @@ function loadHistory() {
 }
 
 function updateHistory() {
-    const historyElement = document.querySelector('.history');
+    const historyElement = document.querySelector('[data-js-history]');
 
     if (!historyElement.classList.contains('shown')) return;
 
@@ -51,8 +52,8 @@ function toggleBodyScroll() {
 }
 
 function toggleHistoryPanel() {
-    const mainElement = document.querySelector('.main');
-    const historyElement = document.querySelector('.history');
+    const mainElement = document.querySelector('[data-js-main]');
+    const historyElement = document.querySelector('[data-js-history]');
 
     mainElement.classList.toggle('shifted');
     historyElement.classList.toggle('shown');
@@ -67,7 +68,7 @@ function toggleHistoryPanel() {
 function insertFromHistory(index) {
     const historyItem = JSON.parse(localStorage.getItem('history'))[index];
 
-    const inputFieldElement = document.querySelector('.converter-input');
+    const inputFieldElement = document.querySelector('[data-js-converter-input]');
     inputFieldElement.value = historyItem;
 
     doOnMobile(toggleHistoryPanel);
@@ -77,7 +78,7 @@ function insertFromHistory(index) {
 }
 
 function delegateInsertion(event) {
-    const targetElement = event.target.closest('.history-item');
+    const targetElement = event.target.closest('[data-js-history-item]');
 
     if (!targetElement) return;
 
@@ -86,11 +87,11 @@ function delegateInsertion(event) {
 }
 
 export function init() {
-    const historyButtonElement = document.querySelector('.history-button');
-    const closeHistoryButtonElement = document.querySelector('.close-history-button');
+    const historyButtonElement = document.querySelector('[data-js-history-button]');
+    const closeHistoryButtonElement = document.querySelector('[data-js-close-history-button]');
     historyButtonElement.onclick = closeHistoryButtonElement.onclick = toggleHistoryPanel;
 
-    const historyListElement = document.querySelector('.history-list');
+    const historyListElement = document.querySelector('[data-js-history-list]');
     historyListElement.onclick = delegateInsertion;
 
     document.addEventListener('convert', event => {

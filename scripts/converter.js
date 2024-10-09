@@ -38,7 +38,7 @@ function convert() {
         ['.', '。'],
     ]);
 
-    const inputValue = document.querySelector('.converter-input').value;
+    const inputValue = document.querySelector('[data-js-converter-input]').value;
     const clearValue = inputValue.trim().toUpperCase();
 
     if (clearValue === '') return;
@@ -58,7 +58,7 @@ function convert() {
         }
     }
 
-    const resultFieldElement = document.querySelector('.result-output');
+    const resultFieldElement = document.querySelector('[data-js-result-output]');
     resultFieldElement.textContent = resultValue;
     
     const convertEvent = new CustomEvent('convert', {detail: {textToHistory: inputValue}});
@@ -67,8 +67,8 @@ function convert() {
 }
 
 function clear() {
-    const inputFieldElement = document.querySelector('.converter-input');
-    const resultFieldElement = document.querySelector('.result-output');
+    const inputFieldElement = document.querySelector('[data-js-converter-input]');
+    const resultFieldElement = document.querySelector('[data-js-result-output]');
     inputFieldElement.value = '';
     resultFieldElement.textContent = '';
 
@@ -77,7 +77,7 @@ function clear() {
 }
 
 function copy() {
-    const resultFieldElement = document.querySelector('.result-output');
+    const resultFieldElement = document.querySelector('[data-js-result-output]');
     const valueToCopy = resultFieldElement.textContent;
 
     navigator.clipboard.writeText(valueToCopy)
@@ -91,17 +91,17 @@ function copy() {
 }
 
 function showCopyButton() {
-    const copyButtonElement = document.querySelector('.copy-button');
+    const copyButtonElement = document.querySelector('[data-js-copy-button]');
     copyButtonElement.classList.add('shown');
 }
 
 function hideCopyButton() {
-    const copyButtonElement = document.querySelector('.copy-button');
+    const copyButtonElement = document.querySelector('[data-js-copy-button]');
     copyButtonElement.classList.remove('shown');
 }
 
 function showNotification(message) {
-    const notificationElement = document.querySelector('.notification');
+    const notificationElement = document.querySelector('[data-js-notification]');
     notificationElement.textContent = message;
     notificationElement.classList.add('shown');
 
@@ -109,27 +109,27 @@ function showNotification(message) {
 }
 
 function showSymbolsAmount() {
-    const symbolsAmountElement = document.querySelector('.symbols-amount');
-    const inputValueLength = document.querySelector('.converter-input').value.length;
+    const symbolsAmountElement = document.querySelector('[data-js-symbols-amount]');
+    const inputValueLength = document.querySelector('[data-js-converter-input]').value.length;
 
     symbolsAmountElement.textContent = `${inputValueLength} / ${MAX_INPUT_LENGTH}`
 }
 
 export function init() {
-    const inputFieldElement = document.querySelector('.converter-input');
+    const inputFieldElement = document.querySelector('[data-js-converter-input]');
     inputFieldElement.oninput = () => {
         if (inputFieldElement.value === '') clear();
 
         showSymbolsAmount();
     };
 
-    const convertButtonElement = document.querySelector('.convert-button');
+    const convertButtonElement = document.querySelector('[data-js-convert-button]');
     convertButtonElement.onclick = convert;
 
-    const clearButtonElement = document.querySelector('.clear-button');
+    const clearButtonElement = document.querySelector('[data-js-clear-button]');
     clearButtonElement.onclick = clear;
 
-    const copyButtonElement = document.querySelector('.copy-button');
+    const copyButtonElement = document.querySelector('[data-js-copy-button]');
     copyButtonElement.onclick = copy;
 
     document.addEventListener('insert', () => {
