@@ -58,7 +58,7 @@ function convert() {
         }
     }
 
-    const resultFieldElement = document.querySelector('.result-field');
+    const resultFieldElement = document.querySelector('.result-output');
     resultFieldElement.textContent = resultValue;
     
     const convertEvent = new CustomEvent('convert', {detail: {textToHistory: inputValue}});
@@ -68,7 +68,7 @@ function convert() {
 
 function clear() {
     const inputFieldElement = document.querySelector('.converter-input');
-    const resultFieldElement = document.querySelector('.result-field');
+    const resultFieldElement = document.querySelector('.result-output');
     inputFieldElement.value = '';
     resultFieldElement.textContent = '';
 
@@ -77,7 +77,7 @@ function clear() {
 }
 
 function copy() {
-    const resultFieldElement = document.querySelector('.result-field');
+    const resultFieldElement = document.querySelector('.result-output');
     const valueToCopy = resultFieldElement.textContent;
 
     navigator.clipboard.writeText(valueToCopy)

@@ -22,8 +22,13 @@ function loadHistory() {
     for (let i = 0; i < history.length; i++) {
         let historyItemElement = document.createElement('div');
         historyItemElement.classList.add('history-item');
-        historyItemElement.textContent = history[i];
         historyItemElement.setAttribute('data-history-index', i);
+
+        let historyItemTextElement = document.createElement('p');
+        historyItemTextElement.textContent = history[i];
+
+        historyItemElement.append(historyItemTextElement);
+        
         historyListElement.append(historyItemElement);
     }
 }
