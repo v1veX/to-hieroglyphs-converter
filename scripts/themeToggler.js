@@ -8,6 +8,6 @@ function toggleTheme() {
 }
 
 export function init() {
-    const themeButtonElement = document.querySelector('.theme-button');
+    const themeButtonElement = document.querySelector('[data-js-theme-button]');
     themeButtonElement.onclick = toggleTheme;
 }

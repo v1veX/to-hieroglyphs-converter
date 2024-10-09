@@ -182,6 +182,19 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
 body {
   background-color: var(--color-background);
   font-family: Arial, sans-serif;
@@ -250,6 +263,7 @@ body.scroll-blocked {
   color: var(--color-text-main);
   resize: none;
   overscroll-behavior: none;
+  transition: color var(--transition-duration);
 }
 
 .converter-input:focus-visible {
@@ -292,7 +306,7 @@ body.scroll-blocked {
   justify-content: center;
 }
 
-.result-field {
+.result-output {
   margin-bottom: 50px;
   text-align: center;
   font-size: var(--font-size);

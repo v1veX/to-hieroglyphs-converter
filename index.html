@@ -8,21 +8,29 @@
     <script src="./scripts/initialTheme.js"></script>
 </head>
 <body>
-    <div class="main">
+    <div class="main" data-js-main>
         <div class="main-inner">
             <h1 class="headline">Конвертер текста в иероглифы</h1>
-            <div class="description">
+            <p class="description">
                 Этот конвертер заменяет символы <span class="underlined">русского алфавита</span> на визуально похожие иероглифы. Например: Привет → 冂尸仈丑仨丅
-            </div>
+            </p>
             <div class="converter-form">
                 <div class="converter-input-wrapper">
-                    <textarea type="text" id="input" class="converter-input" name="input" placeholder="Введите текст"></textarea>
-                    <div class="symbols-amount">&nbsp;</div>
+                    <textarea
+                        type="text"
+                        id="input"
+                        class="converter-input"
+                        name="input"
+                        placeholder="Введите текст"
+                        data-js-converter-input
+                    ></textarea>
+                    <div class="symbols-amount" data-js-symbols-amount>&nbsp;</div>
                 </div>
                 <div class="buttons-container">
-                    <button type="button" class="convert-button button">Конвертировать</button>
-                    <button type="button" class="clear-button button gray">Очистить</button>
-                    <button type="button" class="history-button button gray">
+                    <button type="button" class="convert-button button" data-js-convert-button>Конвертировать</button>
+                    <button type="button" class="clear-button button gray" data-js-clear-button>Очистить</button>
+                    <button type="button" class="history-button button gray" data-js-history-button>
+                        <span class="visually-hidden">Открыть историю</span>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_19_18)">
                                 <path d="M12 6V12L16 14M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="#1E1E1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -36,12 +44,13 @@
                     </button>
                 </div>
             </div>
-            <div class="result-field"></div>
-            <button class="copy-button button">Скопировать</button>
+            <p class="result-output" data-js-result-output></p>
+            <button class="copy-button button" data-js-copy-button>Скопировать</button>
         </div>
-        <button class="theme-button" type="button">
-            <div class="theme-button-inner">
-                <div class="theme-button-thumb"></div>
+        <button class="theme-button" type="button" data-js-theme-button>
+            <span class="visually-hidden">Сменить тему</span>
+            <span class="theme-button-inner">
+                <span class="theme-button-thumb"></span>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M17.4999 10.6583C17.3688 12.0768 16.8365 13.4287 15.9651 14.5557C15.0938 15.6826 13.9195 16.5382 12.5797 17.0221C11.2398 17.5061 9.7899 17.5984 8.3995 17.2884C7.0091 16.9784 5.73575 16.2788 4.72844 15.2715C3.72113 14.2642 3.02153 12.9908 2.71151 11.6004C2.40148 10.21 2.49385 8.76007 2.9778 7.42025C3.46175 6.08042 4.31728 4.90614 5.44426 4.03479C6.57125 3.16345 7.92308 2.63109 9.34158 2.5C8.5111 3.62356 8.11146 5.00787 8.21536 6.40118C8.31926 7.79448 8.9198 9.10422 9.90775 10.0922C10.8957 11.0801 12.2054 11.6807 13.5987 11.7846C14.992 11.8885 16.3764 11.4888 17.4999 10.6583Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -55,24 +64,25 @@
                         </clipPath>
                     </defs>
                 </svg>
-            </div>
+            </span>
         </button>
     </div>
-    <div class="history">
+    <div class="history" data-js-history>
         <div class="history-header">
             <div class="history-headline">История</div>
-            <button class="close-history-button">
+            <button class="close-history-button" data-js-close-history-button>
+                <span class="visually-hidden">Закрыть историю</span>
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M24 8L8 24M8 8L24 24" stroke="#1E1E1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </button>
         </div>
         <div class="history-body">
-            <ul class="history-list"></ul>
+            <ul class="history-list" data-js-history-list></ul>
         </div>
     </div>
     <div class="notification-wrapper">
-        <div class="notification"></div>
+        <div class="notification" data-js-notification></div>
     </div>
 
     <script src="./scripts/script.js" type="module"></script>
