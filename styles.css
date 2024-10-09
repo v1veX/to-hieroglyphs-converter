@@ -263,6 +263,7 @@ body.scroll-blocked {
   color: var(--color-text-main);
   resize: none;
   overscroll-behavior: none;
+  transition: color var(--transition-duration);
 }
 
 .converter-input:focus-visible {
