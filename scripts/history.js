@@ -95,7 +95,7 @@ export function init() {
     historyListElement.onclick = delegateInsertion;
 
     document.addEventListener('convert', event => {
-        addToHistory(event.detail.textToHistory);
+        addToHistory(event.data);
     });
     
     if (!localStorage.getItem('history')) {
