@@ -1,5 +1,3 @@
-import { CustomDataEvent } from "./classes.js";
-
 const MAX_INPUT_LENGTH = 2000;
 
 function convert() {
@@ -63,8 +61,8 @@ function convert() {
     const resultFieldElement = document.querySelector('[data-js-result-output]');
     resultFieldElement.textContent = resultValue;
     
-    const convertEvent = new CustomDataEvent('convert', inputValue);
-    convertEvent.invoke();
+    const convertEvent = new CustomEvent('convert', {detail: inputValue});
+    document.dispatchEvent(convertEvent);
     
     showCopyButton();
 }
