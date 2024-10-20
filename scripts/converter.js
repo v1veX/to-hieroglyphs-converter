@@ -44,7 +44,9 @@ function convert() {
     if (clearValue === '') return;
 
     if (inputValue.length > MAX_INPUT_LENGTH) {
-        showNotification(`Текст должен содержать не более ${MAX_INPUT_LENGTH} символов!`);
+        const notificationText = `Текст должен содержать не более ${MAX_INPUT_LENGTH} символов!`;
+        const notificationEvent = new CustomEvent('notify', {detail: notificationText});
+        document.dispatchEvent(notificationEvent);
         return;
     }
 
@@ -80,14 +82,18 @@ function clear() {
 function copy() {
     const resultFieldElement = document.querySelector('[data-js-result-output]');
     const valueToCopy = resultFieldElement.textContent;
+    let notificationText = '';
 
     navigator.clipboard.writeText(valueToCopy)
     .then(function() {
-        showNotification('Успешно скопировано');
+        notificationText = 'Успешно скопировано';
     })
-    .catch(function(err) {
-        showNotification('Ошибка копирования');
-        console.error(err);
+    .catch(function() {
+        notificationText = 'Ошибка копирования';
+    })
+    .finally(function() {
+        const notificationEvent = new CustomEvent('notify', {detail: notificationText});
+        document.dispatchEvent(notificationEvent);
     });
 }
 
@@ -99,14 +105,6 @@ function showCopyButton() {
 function hideCopyButton() {
     const copyButtonElement = document.querySelector('[data-js-copy-button]');
     copyButtonElement.classList.remove('shown');
-}
-
-function showNotification(message) {
-    const notificationElement = document.querySelector('[data-js-notification]');
-    notificationElement.textContent = message;
-    notificationElement.classList.add('shown');
-
-    setTimeout(() => notificationElement.classList.remove('shown'), 2000);
 }
 
 function showSymbolsAmount() {
