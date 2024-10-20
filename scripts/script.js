@@ -1,7 +1,9 @@
-import {init as initThemeToggler} from './themeToggler.js'
-import {init as initConverter} from './converter.js'
-import {init as initHistory} from './history.js'
+import { ThemeToggler } from './themeToggler.js'
+import { Converter } from './converter.js'
+import { History } from './history.js'
+import { Notification } from './notification.js';
 
-initThemeToggler();
-initConverter();
-initHistory();
+new ThemeToggler();
+new Converter();
+new History();
+new Notification();

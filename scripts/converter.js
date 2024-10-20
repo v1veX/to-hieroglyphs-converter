@@ -1,7 +1,16 @@
 const MAX_INPUT_LENGTH = 2000;
 
-function convert() {
-    const dictionary = new Map([
+export class Converter {
+    _selectors = {
+        inputElement: '[data-js-converter-input]',
+        outputElement: '[data-js-result-output]',
+        convertButtonElement: '[data-js-convert-button]',
+        clearButtonElement: '[data-js-clear-button]',
+        copyButtonElement: '[data-js-copy-button]',
+        symbolsCounter: '[data-js-symbols-amount]'
+    }
+
+    _dictionary = new Map([
         ['А', '丹'],
         ['Б', '石'],
         ['В', '丑'],
@@ -38,104 +47,107 @@ function convert() {
         ['.', '。'],
     ]);
 
-    const inputValue = document.querySelector('[data-js-converter-input]').value;
-    const clearValue = inputValue.trim().toUpperCase();
+    _storedOutputValue = '';
 
-    if (clearValue === '') return;
-
-    if (inputValue.length > MAX_INPUT_LENGTH) {
-        showNotification(`Текст должен содержать не более ${MAX_INPUT_LENGTH} символов!`);
-        return;
+    constructor() {
+        this._bindEvents();
+        this._updateSymbolsCounter();
     }
 
-    let resultValue = '';
-    for (const letter of clearValue) {
-        if (dictionary.has(letter)) {
-            resultValue += dictionary.get(letter);
+    _convert() {
+        const inputValue = document.querySelector(this._selectors.inputElement).value;
+        const formattedInputValue = inputValue.trim().toUpperCase();
+
+        if (formattedInputValue === '') return;
+
+        if (inputValue.length > MAX_INPUT_LENGTH) {
+            const notificationText = `Текст должен содержать не более ${MAX_INPUT_LENGTH} символов!`;
+            const notificationEvent = new CustomEvent('notify', {detail: notificationText});
+            document.dispatchEvent(notificationEvent);
+            return;
         }
-        else {
-            resultValue += letter;
+
+        let outputValue = '';
+        for (const letter of formattedInputValue) {
+            outputValue += this._dictionary.has(letter) ? this._dictionary.get(letter) : letter;
         }
+
+        const resultFieldElement = document.querySelector(this._selectors.outputElement);
+        resultFieldElement.textContent = this._storedOutputValue = outputValue;
+        
+        const convertEvent = new CustomEvent('convert', {detail: inputValue});
+        document.dispatchEvent(convertEvent);
+        
+        this._showCopyButton();
     }
 
-    const resultFieldElement = document.querySelector('[data-js-result-output]');
-    resultFieldElement.textContent = resultValue;
-    
-    const convertEvent = new CustomEvent('convert', {detail: {textToHistory: inputValue}});
-    document.dispatchEvent(convertEvent);
-    showCopyButton();
-}
+    _clear() {
+        const inputFieldElement = document.querySelector(this._selectors.inputElement);
+        const resultFieldElement = document.querySelector(this._selectors.outputElement);
+        inputFieldElement.value = resultFieldElement.textContent = this._inputValue = this._storedOutputValue = '';
 
-function clear() {
-    const inputFieldElement = document.querySelector('[data-js-converter-input]');
-    const resultFieldElement = document.querySelector('[data-js-result-output]');
-    inputFieldElement.value = '';
-    resultFieldElement.textContent = '';
+        this._hideCopyButton();
+        this._updateSymbolsCounter();
+    }
 
-    hideCopyButton();
-    showSymbolsAmount();
-}
+    _copy() {
+        let notificationText = '';
 
-function copy() {
-    const resultFieldElement = document.querySelector('[data-js-result-output]');
-    const valueToCopy = resultFieldElement.textContent;
+        navigator.clipboard.writeText(this._storedOutputValue)
+        .then(function() {
+            notificationText = 'Успешно скопировано';
+        })
+        .catch(function() {
+            notificationText = 'Ошибка копирования';
+        })
+        .finally(function() {
+            const notificationEvent = new CustomEvent('notify', {detail: notificationText});
+            document.dispatchEvent(notificationEvent);
+        });
+    }
 
-    navigator.clipboard.writeText(valueToCopy)
-    .then(function() {
-        showNotification('Успешно скопировано');
-    })
-    .catch(function(err) {
-        showNotification('Ошибка копирования');
-        console.error(err);
-    });
-}
+    _showCopyButton() {
+        const copyButtonElement = document.querySelector(this._selectors.copyButtonElement);
+        copyButtonElement.classList.add('shown');
+    }
 
-function showCopyButton() {
-    const copyButtonElement = document.querySelector('[data-js-copy-button]');
-    copyButtonElement.classList.add('shown');
-}
+    _hideCopyButton() {
+        const copyButtonElement = document.querySelector(this._selectors.copyButtonElement);
+        copyButtonElement.classList.remove('shown');
+    }
 
-function hideCopyButton() {
-    const copyButtonElement = document.querySelector('[data-js-copy-button]');
-    copyButtonElement.classList.remove('shown');
-}
+    _updateSymbolsCounter() {
+        const symbolsAmountElement = document.querySelector(this._selectors.symbolsCounter);
+        const inputValueLength = document.querySelector(this._selectors.inputElement).value.length;
 
-function showNotification(message) {
-    const notificationElement = document.querySelector('[data-js-notification]');
-    notificationElement.textContent = message;
-    notificationElement.classList.add('shown');
+        symbolsAmountElement.textContent = `${inputValueLength} / ${MAX_INPUT_LENGTH}`
+    }
 
-    setTimeout(() => notificationElement.classList.remove('shown'), 2000);
-}
+    _onInput(inputElement) {
+        if (inputElement.value === '') this._clear();
 
-function showSymbolsAmount() {
-    const symbolsAmountElement = document.querySelector('[data-js-symbols-amount]');
-    const inputValueLength = document.querySelector('[data-js-converter-input]').value.length;
+        this._updateSymbolsCounter();
+    }
 
-    symbolsAmountElement.textContent = `${inputValueLength} / ${MAX_INPUT_LENGTH}`
-}
+    _bindEvents() {
+        const inputFieldElement = document.querySelector(this._selectors.inputElement);
+        inputFieldElement.addEventListener('input', () => this._onInput(inputFieldElement));
 
-export function init() {
-    const inputFieldElement = document.querySelector('[data-js-converter-input]');
-    inputFieldElement.oninput = () => {
-        if (inputFieldElement.value === '') clear();
+        const convertButtonElement = document.querySelector(this._selectors.convertButtonElement);
+        convertButtonElement.addEventListener('click', () => this._convert());
 
-        showSymbolsAmount();
-    };
+        const clearButtonElement = document.querySelector(this._selectors.clearButtonElement);
+        clearButtonElement.addEventListener('click', () => this._clear());
 
-    const convertButtonElement = document.querySelector('[data-js-convert-button]');
-    convertButtonElement.onclick = convert;
+        const copyButtonElement = document.querySelector(this._selectors.copyButtonElement);
+        copyButtonElement.addEventListener('click', () => this._copy());
 
-    const clearButtonElement = document.querySelector('[data-js-clear-button]');
-    clearButtonElement.onclick = clear;
-
-    const copyButtonElement = document.querySelector('[data-js-copy-button]');
-    copyButtonElement.onclick = copy;
-
-    document.addEventListener('insert', () => {
-        showSymbolsAmount();
-        convert();
-    });
-
-    showSymbolsAmount();
+        document.addEventListener(
+            'insert',
+            () => {
+                this._updateSymbolsCounter();
+                this._convert();
+            }
+        );
+    }
 }
