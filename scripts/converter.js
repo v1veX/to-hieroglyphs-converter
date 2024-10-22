@@ -3,11 +3,11 @@ const MAX_INPUT_LENGTH = 2000;
 export class Converter {
     _selectors = {
         inputElement: '[data-js-converter-input]',
-        outputElement: '[data-js-result-output]',
+        outputElement: '[data-js-converter-output]',
         convertButtonElement: '[data-js-convert-button]',
         clearButtonElement: '[data-js-clear-button]',
         copyButtonElement: '[data-js-copy-button]',
-        symbolsCounter: '[data-js-symbols-amount]'
+        symbolsCounterElement: '[data-js-symbols-counter]'
     }
 
     _dictionary = new Map([
@@ -117,7 +117,7 @@ export class Converter {
     }
 
     _updateSymbolsCounter() {
-        const symbolsAmountElement = document.querySelector(this._selectors.symbolsCounter);
+        const symbolsAmountElement = document.querySelector(this._selectors.symbolsCounterElement);
         const inputValueLength = document.querySelector(this._selectors.inputElement).value.length;
 
         symbolsAmountElement.textContent = `${inputValueLength} / ${MAX_INPUT_LENGTH}`

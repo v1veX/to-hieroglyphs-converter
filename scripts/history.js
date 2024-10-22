@@ -67,9 +67,9 @@ export class History {
         this._loadHistory();
     }
 
-    _doOnMobile(callback) {
+    _doOnMobile(callbackfn) {
         if (document.documentElement.offsetWidth <= MOBILE_SCREEN_WIDTH)
-            callback();
+            callbackfn();
     }
 
     _toggleBodyScroll() {
@@ -87,7 +87,7 @@ export class History {
             this._loadHistory();
         }
 
-        this._doOnMobile(this._toggleBodyScroll);
+        this._doOnMobile( () => this._toggleBodyScroll() );
     }
 
     _insertFromHistory(index) {
@@ -96,7 +96,7 @@ export class History {
         const inputFieldElement = document.querySelector(this._selectors.converterInputElement);
         inputFieldElement.value = historyItem;
 
-        this._doOnMobile(this._toggleHistoryPanel);
+        this._doOnMobile( () => this._toggleHistoryPanel() );
 
         const insertEvent = new CustomEvent('insert');
         document.dispatchEvent(insertEvent);
