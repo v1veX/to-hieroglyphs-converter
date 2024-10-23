@@ -78,7 +78,7 @@ export class Converter {
         const convertEvent = new CustomEvent('convert', {detail: inputValue});
         document.dispatchEvent(convertEvent);
         
-        this._showCopyButton();
+        this._toggleCopyButton(true);
     }
 
     _clear() {
@@ -86,7 +86,7 @@ export class Converter {
         const resultFieldElement = document.querySelector(this._selectors.outputElement);
         inputFieldElement.value = resultFieldElement.textContent = this._inputValue = this._storedOutputValue = '';
 
-        this._hideCopyButton();
+        this._toggleCopyButton(false);
         this._updateSymbolsCounter();
     }
 
@@ -106,14 +106,9 @@ export class Converter {
         });
     }
 
-    _showCopyButton() {
+    _toggleCopyButton(needsToShow) {
         const copyButtonElement = document.querySelector(this._selectors.copyButtonElement);
-        copyButtonElement.classList.add('shown');
-    }
-
-    _hideCopyButton() {
-        const copyButtonElement = document.querySelector(this._selectors.copyButtonElement);
-        copyButtonElement.classList.remove('shown');
+        copyButtonElement.classList.toggle('shown', needsToShow);
     }
 
     _updateSymbolsCounter() {
