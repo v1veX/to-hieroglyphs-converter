@@ -22,6 +22,8 @@ export class History {
         }
 
         this._history = JSON.parse(localStorage.getItem('history'));
+
+        this._updateHistoryList();
     }
 
     _addToHistory(data) {
@@ -32,7 +34,7 @@ export class History {
         this._history.unshift(data);
         localStorage.setItem('history', JSON.stringify(this._history));
 
-        this._updateHistory();
+        this._updateHistoryList();
     }
 
     _createHistoryItemElement(index, text) {
@@ -49,7 +51,7 @@ export class History {
         return historyItemElement;
     }
 
-    _loadHistory() {
+    _updateHistoryList() {
         const historyListElement = document.querySelector(this._selectors.historyListElement);
         historyListElement.innerHTML = '';
 
@@ -57,14 +59,6 @@ export class History {
             const historyItemElement = this._createHistoryItemElement(i, this._history[i]);
             historyListElement.append(historyItemElement);
         }
-    }
-
-    _updateHistory() {
-        const historyElement = document.querySelector(this._selectors.historyTabElement);
-
-        if (!historyElement.classList.contains('shown')) return;
-
-        this._loadHistory();
     }
 
     _doOnMobile(callbackfn) {
@@ -82,10 +76,6 @@ export class History {
 
         mainElement.classList.toggle('shifted');
         historyElement.classList.toggle('shown');
-
-        if (historyElement.classList.contains('shown')) {
-            this._loadHistory();
-        }
 
         this._doOnMobile( () => this._toggleBodyScroll() );
     }
