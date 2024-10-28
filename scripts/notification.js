@@ -4,7 +4,7 @@ export class Notification {
     }
 
     constructor() {
-        document.addEventListener('notify', event => this._showNotification(event.detail));
+        document.addEventListener('notify', ({ detail }) => this._showNotification(detail));
     }
 
     _showNotification(message) {
@@ -24,7 +24,7 @@ export class Notification {
             function() {
                 notificationElement.textContent = '';
             },
-            {once: true}
+            { once: true }
         );
     }
 }
