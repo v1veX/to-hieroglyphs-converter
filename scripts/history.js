@@ -38,7 +38,7 @@ export class History {
 
     _createHistoryItemElement(index, text) {
         let historyItemElement = document.createElement('div');
-        historyItemElement.classList.add('history-item');
+        historyItemElement.classList.add('history-item', 'wrapped-text');
         historyItemElement.setAttribute('data-history-index', index);
         historyItemElement.setAttribute('data-js-history-item', '');
 

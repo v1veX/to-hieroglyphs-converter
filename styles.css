@@ -195,6 +195,10 @@ button {
   overflow: hidden;
 }
 
+.wrapped-text {
+  white-space: pre-wrap;
+}
+
 body {
   background-color: var(--color-background);
   font-family: Arial, sans-serif;
@@ -306,9 +310,13 @@ body.scroll-blocked {
   justify-content: center;
 }
 
-.result-output {
+.output-wrapper {
+  display: flex;
+  justify-content: center;
   margin-bottom: 50px;
-  text-align: center;
+}
+
+.result-output {
   font-size: var(--font-size);
 }
 
