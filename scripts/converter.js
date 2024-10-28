@@ -62,7 +62,7 @@ export class Converter {
 
         if (inputValue.length > MAX_INPUT_LENGTH) {
             const notificationText = `Текст должен содержать не более ${MAX_INPUT_LENGTH} символов!`;
-            const notificationEvent = new CustomEvent('notify', {detail: notificationText});
+            const notificationEvent = new CustomEvent('notify', { detail: notificationText });
             document.dispatchEvent(notificationEvent);
             return;
         }
@@ -75,7 +75,7 @@ export class Converter {
         const resultFieldElement = document.querySelector(this._selectors.outputElement);
         resultFieldElement.textContent = this._storedOutputValue = outputValue;
         
-        const convertEvent = new CustomEvent('convert', {detail: inputValue});
+        const convertEvent = new CustomEvent('convert', { detail: inputValue });
         document.dispatchEvent(convertEvent);
         
         this._toggleCopyButton(true);
@@ -101,7 +101,7 @@ export class Converter {
             notificationText = 'Ошибка копирования';
         })
         .finally(function() {
-            const notificationEvent = new CustomEvent('notify', {detail: notificationText});
+            const notificationEvent = new CustomEvent('notify', { detail: notificationText });
             document.dispatchEvent(notificationEvent);
         });
     }
@@ -124,6 +124,14 @@ export class Converter {
         this._updateSymbolsCounter();
     }
 
+    _onInsert(insertableData) {
+        const inputFieldElement = document.querySelector(this._selectors.inputElement);
+        inputFieldElement.value = insertableData;
+
+        this._updateSymbolsCounter();
+        this._convert();
+    }
+
     _bindEvents() {
         const inputFieldElement = document.querySelector(this._selectors.inputElement);
         inputFieldElement.addEventListener('input', () => this._onInput(inputFieldElement));
@@ -137,12 +145,6 @@ export class Converter {
         const copyButtonElement = document.querySelector(this._selectors.copyButtonElement);
         copyButtonElement.addEventListener('click', () => this._copy());
 
-        document.addEventListener(
-            'insert',
-            () => {
-                this._updateSymbolsCounter();
-                this._convert();
-            }
-        );
+        document.addEventListener('insert', ({ detail }) => this._onInsert(detail));
     }
 }

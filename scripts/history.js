@@ -9,7 +9,6 @@ export class History {
         historyItemElement: '[data-js-history-item]',
         historyButtonElement: '[data-js-history-button]',
         closeHistoryButtonElement: '[data-js-close-history-button]',
-        converterInputElement: '[data-js-converter-input]',
     };
 
     _history = null;
@@ -83,13 +82,10 @@ export class History {
     _insertFromHistory(index) {
         const historyItem = this._history[index];
 
-        const inputFieldElement = document.querySelector(this._selectors.converterInputElement);
-        inputFieldElement.value = historyItem;
+        const insertEvent = new CustomEvent('insert', { detail: historyItem });
+        document.dispatchEvent(insertEvent);
 
         this._doOnMobile( () => this._toggleHistoryPanel() );
-
-        const insertEvent = new CustomEvent('insert');
-        document.dispatchEvent(insertEvent);
     }
 
     _delegateInsertion(event) {
@@ -110,6 +106,6 @@ export class History {
         const historyListElement = document.querySelector(this._selectors.historyListElement);
         historyListElement.addEventListener('click', event => this._delegateInsertion(event));
 
-        document.addEventListener('convert', event => this._addToHistory(event.detail));
+        document.addEventListener('convert', ({ detail }) => this._addToHistory(detail));
     }
 }
