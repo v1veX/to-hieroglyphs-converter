@@ -9,7 +9,7 @@ export class History {
         historyItemElement: '[data-js-history-item]',
         historyButtonElement: '[data-js-history-button]',
         closeHistoryButtonElement: '[data-js-close-history-button]',
-        converterInputElement: '[data-js-converter-input]',
+        clearHistoryButtonElement: '[data-js-clear-history-button]',
     };
 
     _history = null;
@@ -22,6 +22,8 @@ export class History {
         }
 
         this._history = JSON.parse(localStorage.getItem('history'));
+
+        this._updateHistoryList();
     }
 
     _addToHistory(data) {
@@ -32,12 +34,19 @@ export class History {
         this._history.unshift(data);
         localStorage.setItem('history', JSON.stringify(this._history));
 
-        this._updateHistory();
+        this._updateHistoryList();
+    }
+
+    _clearHistory() {
+        this._history = [];
+        localStorage.setItem('history', JSON.stringify(this._history));
+
+        this._updateHistoryList();
     }
 
     _createHistoryItemElement(index, text) {
         let historyItemElement = document.createElement('div');
-        historyItemElement.classList.add('history-item');
+        historyItemElement.classList.add('history-item', 'wrapped-text');
         historyItemElement.setAttribute('data-history-index', index);
         historyItemElement.setAttribute('data-js-history-item', '');
 
@@ -49,7 +58,7 @@ export class History {
         return historyItemElement;
     }
 
-    _loadHistory() {
+    _updateHistoryList() {
         const historyListElement = document.querySelector(this._selectors.historyListElement);
         historyListElement.innerHTML = '';
 
@@ -57,14 +66,6 @@ export class History {
             const historyItemElement = this._createHistoryItemElement(i, this._history[i]);
             historyListElement.append(historyItemElement);
         }
-    }
-
-    _updateHistory() {
-        const historyElement = document.querySelector(this._selectors.historyTabElement);
-
-        if (!historyElement.classList.contains('shown')) return;
-
-        this._loadHistory();
     }
 
     _doOnMobile(callbackfn) {
@@ -83,23 +84,16 @@ export class History {
         mainElement.classList.toggle('shifted');
         historyElement.classList.toggle('shown');
 
-        if (historyElement.classList.contains('shown')) {
-            this._loadHistory();
-        }
-
         this._doOnMobile( () => this._toggleBodyScroll() );
     }
 
     _insertFromHistory(index) {
         const historyItem = this._history[index];
 
-        const inputFieldElement = document.querySelector(this._selectors.converterInputElement);
-        inputFieldElement.value = historyItem;
+        const insertEvent = new CustomEvent('insert', { detail: historyItem });
+        document.dispatchEvent(insertEvent);
 
         this._doOnMobile( () => this._toggleHistoryPanel() );
-
-        const insertEvent = new CustomEvent('insert');
-        document.dispatchEvent(insertEvent);
     }
 
     _delegateInsertion(event) {
@@ -117,9 +111,12 @@ export class History {
         historyButtonElement.addEventListener('click', () => this._toggleHistoryPanel());
         closeHistoryButtonElement.addEventListener('click', () => this._toggleHistoryPanel());
 
+        const clearHistoryButtonElement = document.querySelector(this._selectors.clearHistoryButtonElement);
+        clearHistoryButtonElement.addEventListener('click', () => this._clearHistory());
+
         const historyListElement = document.querySelector(this._selectors.historyListElement);
         historyListElement.addEventListener('click', event => this._delegateInsertion(event));
 
-        document.addEventListener('convert', event => this._addToHistory(event.detail));
+        document.addEventListener('convert', ({ detail }) => this._addToHistory(detail));
     }
 }

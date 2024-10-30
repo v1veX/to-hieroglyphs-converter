@@ -45,8 +45,10 @@
                     </button>
                 </div>
             </div>
-            <p class="result-output" data-js-converter-output></p>
-            <button class="copy-button button" data-js-copy-button>Скопировать</button>
+            <div class="output-wrapper">
+                <p class="result-output wrapped-text" data-js-converter-output></p>
+            </div>
+            <button type="button" class="copy-button button" data-js-copy-button>Скопировать</button>
         </div>
         <button class="theme-button" type="button" data-js-theme-button>
             <span class="visually-hidden">Сменить тему</span>
@@ -70,13 +72,24 @@
     </div>
     <div class="history" data-js-history>
         <div class="history-header">
-            <div class="history-headline">История</div>
-            <button class="close-history-button" data-js-close-history-button>
-                <span class="visually-hidden">Закрыть историю</span>
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M24 8L8 24M8 8L24 24" stroke="#1E1E1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
+            <div class="history-header-top">
+                <div class="history-headline">История</div>
+                <button type="button" class="close-history-button" data-js-close-history-button>
+                    <span class="visually-hidden">Закрыть историю</span>
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 8L8 24M8 8L24 24" stroke="#1E1E1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="history-header-bottom">
+                <button 
+                    type="button"
+                    class="clear-history-button button gray"
+                    data-js-clear-history-button button
+                >
+                    Очистить историю
+                </button>
+            </div>
         </div>
         <div class="history-body">
             <ul class="history-list" data-js-history-list></ul>
