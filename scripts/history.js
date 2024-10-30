@@ -9,6 +9,7 @@ export class History {
         historyItemElement: '[data-js-history-item]',
         historyButtonElement: '[data-js-history-button]',
         closeHistoryButtonElement: '[data-js-close-history-button]',
+        clearHistoryButtonElement: '[data-js-clear-history-button]',
     };
 
     _history = null;
@@ -31,6 +32,13 @@ export class History {
         if (this._history.length === MAX_HISTORY_LENGTH) this._history.pop();
 
         this._history.unshift(data);
+        localStorage.setItem('history', JSON.stringify(this._history));
+
+        this._updateHistoryList();
+    }
+
+    _clearHistory() {
+        this._history = [];
         localStorage.setItem('history', JSON.stringify(this._history));
 
         this._updateHistoryList();
@@ -102,6 +110,9 @@ export class History {
         const closeHistoryButtonElement = document.querySelector(this._selectors.closeHistoryButtonElement);
         historyButtonElement.addEventListener('click', () => this._toggleHistoryPanel());
         closeHistoryButtonElement.addEventListener('click', () => this._toggleHistoryPanel());
+
+        const clearHistoryButtonElement = document.querySelector(this._selectors.clearHistoryButtonElement);
+        clearHistoryButtonElement.addEventListener('click', () => this._clearHistory());
 
         const historyListElement = document.querySelector(this._selectors.historyListElement);
         historyListElement.addEventListener('click', event => this._delegateInsertion(event));
