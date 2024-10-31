@@ -6,6 +6,6 @@ import { ScrollToggler } from './scrollToggler.js';
 
 new ThemeToggler();
 new Converter();
+new ScrollToggler();
 new History();
 new Notification();
-new ScrollToggler();

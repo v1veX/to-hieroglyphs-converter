@@ -69,7 +69,7 @@ export class History {
     }
 
     _doOnMobile(callbackfn) {
-        if (document.documentElement.offsetWidth <= MOBILE_SCREEN_WIDTH)
+        if (window.innerWidth <= MOBILE_SCREEN_WIDTH)
             callbackfn();
     }
 
@@ -80,10 +80,11 @@ export class History {
         mainElement.classList.toggle('shifted');
         historyElement.classList.toggle('shown');
 
-        this._doOnMobile(() => {
-            const toggleScrollEvent = new CustomEvent('toggle-scroll');
-            document.dispatchEvent(toggleScrollEvent);
-        });
+        const toggleHistoryEvent = new CustomEvent(
+            'toggle-history',
+            { detail: historyElement.classList.contains('shown') }
+        );
+        document.dispatchEvent(toggleHistoryEvent);
     }
 
     _insertFromHistory(index) {
