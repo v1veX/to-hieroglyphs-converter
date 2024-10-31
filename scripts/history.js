@@ -73,10 +73,6 @@ export class History {
             callbackfn();
     }
 
-    _toggleBodyScroll() {
-        document.body.classList.toggle('scroll-blocked');
-    }
-
     _toggleHistoryPanel() {
         const mainElement = document.querySelector(this._selectors.mainTabElement);
         const historyElement = document.querySelector(this._selectors.historyTabElement);
@@ -84,7 +80,10 @@ export class History {
         mainElement.classList.toggle('shifted');
         historyElement.classList.toggle('shown');
 
-        this._doOnMobile( () => this._toggleBodyScroll() );
+        this._doOnMobile(() => {
+            const toggleScrollEvent = new CustomEvent('toggle-scroll');
+            document.dispatchEvent(toggleScrollEvent);
+        });
     }
 
     _insertFromHistory(index) {
