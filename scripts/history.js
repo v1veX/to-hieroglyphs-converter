@@ -69,12 +69,8 @@ export class History {
     }
 
     _doOnMobile(callbackfn) {
-        if (document.documentElement.offsetWidth <= MOBILE_SCREEN_WIDTH)
+        if (window.innerWidth <= MOBILE_SCREEN_WIDTH)
             callbackfn();
-    }
-
-    _toggleBodyScroll() {
-        document.body.classList.toggle('scroll-blocked');
     }
 
     _toggleHistoryPanel() {
@@ -84,7 +80,11 @@ export class History {
         mainElement.classList.toggle('shifted');
         historyElement.classList.toggle('shown');
 
-        this._doOnMobile( () => this._toggleBodyScroll() );
+        const toggleHistoryEvent = new CustomEvent(
+            'toggle-history',
+            { detail: historyElement.classList.contains('shown') }
+        );
+        document.dispatchEvent(toggleHistoryEvent);
     }
 
     _insertFromHistory(index) {
