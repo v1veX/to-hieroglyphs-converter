@@ -1,25 +1,26 @@
 const MOBILE_SCREEN_WIDTH = 767;
 
 export class ScrollToggler {
-    _initialPlatform = null;
+    _isMobile = null;
     _isHistoryOpened = false;
 
     constructor() {
         this._bindEvents();
 
-        this._initialPlatform = this._getCurrentPlatform();
+        this._isMobile = this._getIsMobile();
     }
 
-    _getCurrentPlatform() {
-        const isMobile = window.innerWidth <= MOBILE_SCREEN_WIDTH;
-        return isMobile ? 'mobile' : 'desktop';
+    _getIsMobile() {
+        return window.innerWidth <= MOBILE_SCREEN_WIDTH;
     }
 
     _togglePageScroll() {
         document.body.classList.toggle('scroll-blocked');
     }
 
+    // when platform changed we must toggle page scroll while history is opened
     _onChangePlatform() {
+        console.log('Platform changed');
         if (!this._isHistoryOpened) return;
 
         this._togglePageScroll();
@@ -28,20 +29,19 @@ export class ScrollToggler {
     _onToggleHistory(isHistoryOpened) {
         this._isHistoryOpened = isHistoryOpened;
 
-        if (this._initialPlatform !== 'mobile') return;
+        if (!this._isMobile) return;
         
         this._togglePageScroll();
     }
 
     _onResize() {
-        const currentPlatform = this._getCurrentPlatform();
+        const currentIsMobile = this._getIsMobile();
         
-        // when platform changed we must toggle page scroll while history is opened
-        if (currentPlatform !== this._initialPlatform) {
-            this._onChangePlatform();
-        }
+        if (currentIsMobile === this._isMobile) return;
+        
+        this._onChangePlatform();
 
-        this._initialPlatform = currentPlatform;
+        this._isMobile = currentIsMobile;
     }
 
     _bindEvents() {
